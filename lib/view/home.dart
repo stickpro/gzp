@@ -4,11 +4,7 @@ import 'package:gzp/models/devices.dart';
 import 'package:gzp/widgets/device_tile.dart';
 
 class Home extends StatefulWidget {
-  late List<Devices> devices = [];
-
-  Home() {
-    devices.clear();
-  }
+  const Home({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -16,14 +12,15 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   var service = new GoogleSheetApi();
+  late List<Devices> devices = [];
 
   Future loadData() async {
     var data = await service.loadAll();
 
     if (data != null) {
       setState(() {
-        widget.devices.clear();
-        widget.devices.addAll(data);
+        devices.clear();
+        devices.addAll(data);
       });
     }
   }
@@ -43,9 +40,9 @@ class _HomeState extends State<Home> {
       ),
       body: Container(
           child: ListView.builder(
-              itemCount: widget.devices.length,
+              itemCount: devices.length,
               itemBuilder: (ctx, index) {
-                var device = widget.devices[index];
+                var device = devices[index];
 
                 return DeviceTile(
                   number: device.number ?? '',
